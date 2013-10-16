@@ -422,6 +422,37 @@ typedef NSUInteger FBRequestState __attribute__((deprecated));
 
 /*!
  @method
+ 
+ @abstract
+ Creates a request representing a status update.
+ 
+ @discussion
+ Simplifies preparing a request to post a status update.
+ 
+ This method does not initialize an <FBRequestConnection> object. To initiate the API
+ call first instantiate an <FBRequestConnection> object, add the request to this object,
+ then call the `start` method on the connection instance.
+ 
+ @param message         The message to post.
+ @param place           The place to checkin with, or nil. Place may be an fbid or a
+ graph object representing a place.
+ @param tags            Array of friends to tag in the status update, each element
+ may be an fbid or a graph object representing a user.
+ @param link            The link attached to this post.
+ @param picture         A link to the picture included with this post.
+ @param caption         The caption of the link (appears beneath the link name).
+ @param description     A description of the link (appears beneath the link caption).
+ */
++ (FBRequest *)requestForPostStatusUpdate:(NSString *)message
+                                    place:(id)place
+                                     tags:(id<NSFastEnumeration>)tags
+                                     link:(NSString *)link
+                                  picture:(NSString *)picture
+                                  caption:(NSString *)caption
+                              description:(NSString *)description;
+
+/*!
+ @method
 
  @abstract
  Creates a request representing a Graph API call to the "search" endpoint

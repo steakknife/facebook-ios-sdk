@@ -218,21 +218,45 @@ static NSString *const kPostHTTPMethod = @"POST";
             autorelease];
 }
 
-+ (FBRequest *)requestForPostStatusUpdate:(NSString *)message {
++ (FBRequest *)requestForPostStatusUpdate:(NSString *)message
+                                    place:(id)place
+                                     tags:(id<NSFastEnumeration>)tags {
     return [FBRequest requestForPostStatusUpdate:message
-                                           place:nil
-                                            tags:nil];
+                                           place:place
+                                            tags:tags
+                                            link:nil
+                                         picture:nil
+                                         caption:nil
+                                     description:nil];
 }
 
 + (FBRequest *)requestForPostStatusUpdate:(NSString *)message
                                     place:(id)place
-                                     tags:(id<NSFastEnumeration>)tags {
-    
+                                     tags:(id<NSFastEnumeration>)tags
+                                     link:(NSString *)link
+                                  picture:(NSString *)picture
+                                  caption:(NSString *)caption
+                              description:(NSString *)description {
+
+
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:message forKey:@"message"];
+    
+    if (link) {
+        params[@"link"] = link;
+    }
+    if (caption) {
+        params[@"caption"] = caption;
+    }
+    if (picture) {
+        params[@"picture"] = picture;
+    }
+    if (description) {
+        params[@"description"] = description;
+    }
+
     // if we have a place object, use it
     if (place) {
-        [params setObject:[FBUtility stringFBIDFromObject:place]
-                   forKey:@"place"];
+        params[@"place"] = [FBUtility stringFBIDFromObject:place];
     }
     // ditto tags
     if (tags) {
@@ -243,8 +267,7 @@ static NSString *const kPostHTTPMethod = @"POST";
             format = @",%@";
         }
         if ([tagsValue length]) {
-            [params setObject:tagsValue
-                       forKey:@"tags"];
+            params[@"tags"] = tagsValue;
         }
     }
     
