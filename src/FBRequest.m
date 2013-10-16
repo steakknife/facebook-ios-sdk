@@ -218,6 +218,17 @@ static NSString *const kPostHTTPMethod = @"POST";
             autorelease];
 }
 
++ (FBRequest *)requestForPostStatusUpdate:(NSString *)message {
+    return [FBRequest requestForPostStatusUpdate:message
+                                           place:nil
+                                            tags:nil
+                                            link:nil
+                                         picture:nil
+                                         caption:nil
+                                     description:nil];
+}
+
+
 + (FBRequest *)requestForPostStatusUpdate:(NSString *)message
                                     place:(id)place
                                      tags:(id<NSFastEnumeration>)tags {
